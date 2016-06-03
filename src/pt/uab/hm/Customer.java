@@ -15,12 +15,20 @@ public class Customer {
 		return point;
 	}
 
+	public PolarPoint getPointPolar() {
+		return pointPolar;
+	}
+	
 	public int getDemand() {
 		return demand;
 	}
 
 	public void setPoint(Point point) {
 		this.point = point;
+	}
+	
+	public void setPointPolar(PolarPoint pointPolar) {
+		this.pointPolar = pointPolar;
 	}
 
 	public void setDemand(int demand) {

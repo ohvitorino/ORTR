@@ -1,26 +1,60 @@
-import java.util.Set;
+package pt.uab.hm;
 
+import java.util.Arrays;
+
+/**
+ * 
+ * @author Bruno Vitorino <bruno.vitorino@gmail.com>
+ *
+ */
 public class Solver {
 	private static final int I = 2;
 	private static final int K = 5;
 	private static final int NB_LIST_SIZE = 20;
-	
+
 	private int M;
-	
+	private Customer[] customers;
+
+	public static void main(String[] args) {
+		Customer[] customers = OVRPGenerator.generate(10, 20);
+		
+		Solver solver = new Solver();
+		solver.solve(customers);
+	}
+
 	public Solver() {
 
 	}
 
-	public void solve() {
-		
-	}
-	
-	private void sweep(Set<Point> cities) {
+	public void solve(Customer[] customers) {
+		if (customers != null) {
+			this.customers = customers;
+		}
+
+		this.sweep(this.customers);
+
+		int record = this.runObjectiveFunction(), bestRecord = record;
 
 	}
-	
-	public static void main(String[] args) {
-		Solver solver = new Solver();
-		solver.solve();
+
+	private Customer[] sweep(Customer[] customers) {
+		// Assuming the depot is at the first position
+		Arrays.sort(customers, Solver::compareCustomers);
+		
+		// Return customers ordered by angle (theta)
+		return customers;
+	}
+
+	private int runObjectiveFunction() {
+		return 0;
+	}
+
+	public static int compareCustomers(Customer a, Customer b) {
+		if (a.getPointPolar().getTheta() > b.getPointPolar().getTheta()) {
+			return 1;
+		} else if (a.getPointPolar().getTheta() < b.getPointPolar().getTheta()) {
+			return -1;
+		}
+		return 0;
 	}
 }
