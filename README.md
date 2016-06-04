@@ -1,5 +1,5 @@
 # ORTR
-Implementation of an OVRP heuristic. Based on _The open vehicle routing problem: Algorithms, large-scale test
+Implementation of an OVRP heuristic. **Based on** _The open vehicle routing problem: Algorithms, large-scale test
 problems, and computational results_ by Feiyue Li, Bruce Golden, Edward Wasil.
 
     In the open vehicle routing problem (OVRP), a vehicle does not return to the depot after servicing the last customer on a route.
