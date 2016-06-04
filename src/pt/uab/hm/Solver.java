@@ -31,13 +31,20 @@ public class Solver {
 			this.customers = customers;
 		}
 
-		this.sweep(this.customers);
+		this.sweep(this.customers, null, null);
 
 		int record = this.runObjectiveFunction(), bestRecord = record;
 
 	}
 
-	private Customer[] sweep(Customer[] customers) {
+	/**
+	 * 
+	 * @param customers The customers to be distributed per vehicle
+	 * @param numberOfVehicles Number of available vehicles
+	 * @param vehicleCapacity How many customers per vehicle
+	 * @return 
+	 */
+	private Customer[] sweep(Customer[] customers, Integer numberOfVehicles, Integer vehicleCapacity) {
 		// Assuming the depot is at the first position
 		Arrays.sort(customers, Solver::compareCustomers);
 		
