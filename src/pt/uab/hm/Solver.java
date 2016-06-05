@@ -33,7 +33,7 @@ public class Solver {
 		// Apply sweep algorithm
 		List<Vehicle> vehicles = this.sweep(customers, null);
 
-		long record = this.runObjectiveFunction(vehicles), bestRecord = record;
+		double record = this.runObjectiveFunction(vehicles), bestRecord = record;
 
 		// Calculate deviation
 		deviation = .01 * record;
@@ -42,18 +42,17 @@ public class Solver {
 
 		while (itr <= M) {
 			int count = 0;
-			
+
 			while (count <= K) {
-				
-				
-				for(int i = 1; i < I; i++) {
-					
+
+				for (int i = 1; i < I; i++) {
+
 					// One Point Move with record-to-record travel
-					// Two Point Move with record-to-record travel between routes
+					// Two Point Move with record-to-record travel between
+					// routes
 					// Two-opt Move with record-to-record travel
 					// Feasibility must be maintained
-					
-					
+
 				}
 			}
 		}
@@ -98,16 +97,36 @@ public class Solver {
 		return vehicles;
 	}
 
-	private long runObjectiveFunction(List<Vehicle> vehicles) {
-		long distance = 0;
+	/**
+	 * Objective function
+	 * 
+	 * @param vehicles
+	 * @return
+	 */
+	private double runObjectiveFunction(List<Vehicle> vehicles) {
+		double distance = 0;
 		for (Vehicle vehicle : vehicles) {
-			for (Customer customer : vehicle.getCustomers()) {
-				distance += customer.getPointPolar().getR();
+			for (int i = 0; i < vehicle.getCustomers().size(); i++) {
+				if (i != vehicle.getCustomers().size() - 1) {
+					Customer c1 = vehicle.getCustomers().get(i);
+					Customer c2 = vehicle.getCustomers().get(i + 1);
+					distance += Math.sqrt((c1.getPoint().getX() - c2.getPoint().getX())
+							* (c1.getPoint().getX() - c2.getPoint().getX())
+							+ (c1.getPoint().getY() - c2.getPoint().getY())
+									* (c1.getPoint().getY() - c2.getPoint().getY()));
+				}
 			}
 		}
 		return vehicles.size() * distance;
 	}
 
+	/**
+	 * Compare two customers by using their angles.
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	public static int compareCustomersByAngle(Customer a, Customer b) {
 		if (a.getPointPolar().getTheta() > b.getPointPolar().getTheta()) {
 			return 1;
