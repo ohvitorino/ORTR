@@ -1,12 +1,17 @@
 package pt.uab.hm;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class OVRPGenerator {
 	/**
 	 * Generate customers
 	 * @param n number of customers
 	 * @return Array of customers
 	 */
-	public static Customer[] generate(int a, int b) {
+	public static List<Customer> generate(int a, int b) {
 		// Number of customers is determined by a and b
 		int n = a * b;
 		
@@ -39,6 +44,6 @@ public class OVRPGenerator {
 			}
 		}
 		
-		return customers;
+		return new ArrayList<>(Arrays.asList(customers));
 	}
 }
