@@ -11,16 +11,10 @@ import java.util.List;
  *
  */
 public class Solver {
-	private static final int I = 2;
-	private static final int K = 5;
-	private static final int NB_LIST_SIZE = 20;
-
-	private int M;
-	private List<Customer> customers;
 
 	public static void main(String[] args) throws Throwable {
 		List<Customer> customers = OVRPGenerator.generate(10, 20);
-		
+
 		Solver solver = new Solver();
 		solver.solve(customers);
 	}
@@ -30,54 +24,88 @@ public class Solver {
 	}
 
 	public void solve(List<Customer> customers) throws Throwable {
-		if (customers != null) {
-			this.customers = customers;
+		int I = 2;
+		int K = 5;
+		double M = Math.max(customers.size() / 2, 30);
+		int NB_LIST_SIZE = 20;
+		double deviation;
+
+		// Apply sweep algorithm
+		List<Vehicle> vehicles = this.sweep(customers, null);
+
+		long record = this.runObjectiveFunction(vehicles), bestRecord = record;
+
+		// Calculate deviation
+		deviation = .01 * record;
+
+		int itr = 0;
+
+		while (itr <= M) {
+			int count = 0;
+			
+			while (count <= K) {
+				
+				
+				for(int i = 1; i < I; i++) {
+					
+					// One Point Move with record-to-record travel
+					// Two Point Move with record-to-record travel between routes
+					// Two-opt Move with record-to-record travel
+					// Feasibility must be maintained
+					
+					
+				}
+			}
 		}
-
-		this.sweep(this.customers, null);
-
-		int record = this.runObjectiveFunction(), bestRecord = record;
-
 	}
 
 	/**
 	 * 
-	 * @param customers The customers to be distributed per vehicle
-	 * @param vehicleCapacity How many customers per vehicle
-	 * @return 
-	 * @throws Exception 
+	 * @param customers
+	 *            List of customers to be served.
+	 * @param vehicleCapacity
+	 *            Capacity in terms of customer demand.
+	 * @return A list of vehicles with customers associated to each of the
+	 *         vehicles.
+	 * @throws Exception
 	 */
 	public List<Vehicle> sweep(List<Customer> customers, Integer vehicleCapacity) throws Exception {
 		// Assuming the depot is at the first position
 		List<Customer> customersCopy = customers;
-		
+
 		if (vehicleCapacity <= 0) {
 			throw new Exception("vehicleCapacity must be > 0");
 		}
-		
+
 		// Sort array by angle
 		customersCopy.sort(Solver::compareCustomersByAngle);
-		
+
 		List<Vehicle> vehicles = new ArrayList<>();
 		Iterator<Customer> it = customersCopy.iterator();
-		
+
 		int vehicleNumber = 0;
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			Vehicle vehicle = new Vehicle(++vehicleNumber);
-			
+
 			while (vehicle.getCurrentCapacityUsage() <= vehicleCapacity && it.hasNext()) {
 				vehicle.addCustomer(it.next());
 			}
-			
+
 			vehicles.add(vehicle);
 		}
-		
+
 		// Return customers ordered by angle (theta)
 		return vehicles;
 	}
 
-	private int runObjectiveFunction() {
-		return 0;
+	private long runObjectiveFunction(List<Vehicle> vehicles) {
+		long distance = 0;
+		for (Vehicle vehicle : vehicles) {
+			for (Customer customer : vehicle.getCustomers()) {
+				distance += customer.getPointPolar().getR();
+			}
+		}
+		return vehicles.size() * distance;
 	}
 
 	public static int compareCustomersByAngle(Customer a, Customer b) {
