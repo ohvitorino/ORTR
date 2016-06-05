@@ -83,15 +83,22 @@ public class Solver {
 		Iterator<Customer> it = customersCopy.iterator();
 
 		int vehicleNumber = 0;
-		while (it.hasNext()) {
-			Vehicle vehicle = new Vehicle(++vehicleNumber);
-
-			while (vehicle.getCurrentCapacityUsage() <= vehicleCapacity && it.hasNext()) {
-				vehicle.addCustomer(it.next());
+		
+		Customer customer = it.next();
+		Vehicle vehicle = new Vehicle(vehicleNumber);
+		do {
+			// Check vehicle capacity
+			if (vehicle.getCurrentCapacityUsage() + customer.getDemand() <= vehicleCapacity) {
+				// Add customer if the vehicle still has 'space'
+				vehicle.addCustomer(customer);
+			} else {
+				// Vehicle can't take anymore customers
+				vehicles.add(vehicle);
+				vehicle = new Vehicle(++vehicleNumber);
 			}
-
-			vehicles.add(vehicle);
-		}
+		} while (it.hasNext() && (customer = it.next()) != null);
+		// Add the last created vehicle
+		vehicles.add(vehicle);
 
 		// Return customers ordered by angle (theta)
 		return vehicles;
@@ -134,5 +141,13 @@ public class Solver {
 			return -1;
 		}
 		return 0;
+	}
+	
+	private void onePointMoveRTR(List<Customer> customers) {
+		
+	}
+	
+	private void twoPointMoveRTR(List<Customer> customers) {
+		
 	}
 }
