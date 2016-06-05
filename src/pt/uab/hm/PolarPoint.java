@@ -3,7 +3,7 @@ package pt.uab.hm;
 public class PolarPoint {
 	private double theta;
 	private double r;
-	
+
 	public PolarPoint() {
 	}
 

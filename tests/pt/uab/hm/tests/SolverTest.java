@@ -18,9 +18,9 @@ public class SolverTest {
 	public void testCompareCustomers() {
 		Customer a = new Customer(new Point(3, 4), 40);
 		Customer b = new Customer(new Point(1, 4), 40);
-		
+
 		int value = Solver.compareCustomersByAngle(a, b);
-		
+
 		assertEquals(1, value);
 	}
 
@@ -30,9 +30,9 @@ public class SolverTest {
 		Solver solver = new Solver();
 		List<Vehicle> vehicles;
 		List<Customer> customers;
-		
+
 		try {
-			
+
 			customers = OVRPGenerator.generate(20, 10);
 			vehicles = solver.sweep(customers, 900);
 			assertEquals(5, vehicles.size());
@@ -40,15 +40,15 @@ public class SolverTest {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testSweepO2() {
 		// Get a problem to solve
 		Solver solver = new Solver();
 		List<Vehicle> vehicles;
 		List<Customer> customers;
-		
-		try {			
+
+		try {
 			customers = OVRPGenerator.generate(40, 6);
 			vehicles = solver.sweep(customers, 550);
 			assertEquals(9, vehicles.size());
@@ -56,15 +56,15 @@ public class SolverTest {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testSweepO3() {
 		// Get a problem to solve
 		Solver solver = new Solver();
 		List<Vehicle> vehicles;
 		List<Customer> customers;
-		
-		try {			
+
+		try {
 			customers = OVRPGenerator.generate(28, 10);
 			vehicles = solver.sweep(customers, 900);
 			assertEquals(7, vehicles.size());
