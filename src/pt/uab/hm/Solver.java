@@ -80,7 +80,7 @@ public class Solver {
 
 		List<Vehicle> vehicles = new ArrayList<>();
 		Iterator<Customer> it = customersCopy.iterator();
-		Customer depot = it.next();
+		Customer depot = new Customer(new Point(0, 0), 0);
 
 		int vehicleNumber = 0;
 		

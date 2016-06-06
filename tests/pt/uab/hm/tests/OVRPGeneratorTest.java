@@ -14,7 +14,8 @@ public class OVRPGeneratorTest {
 	@Test
 	public void testGenerate() {
 		List<Customer> customers = OVRPGenerator.generate(20, 10);
-		assertEquals(200, customers.size());
+		// This also includes the depot
+		assertEquals(201, customers.size());
 	}
 
 }

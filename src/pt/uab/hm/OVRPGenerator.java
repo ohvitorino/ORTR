@@ -16,13 +16,13 @@ public class OVRPGenerator {
 		// Number of customers is determined by a and b
 		int n = a * b;
 
-		Customer[] customers = new Customer[n];
+		List<Customer> customers = new ArrayList<>(n + 1);
 
 		// Algorithm
 		int w = 0;
 
 		// This is the depot
-		customers[w] = new Customer(new Point(0, 0), 0);
+		customers.add(new Customer(new Point(0, 0), 0));
 
 		for (int k = 1; k <= b; k++) {
 			int gama = 30 * 1000;
@@ -41,10 +41,10 @@ public class OVRPGenerator {
 					demand = 10;
 				}
 
-				customers[w - 1] = new Customer(new Point(x, y), demand);
+				customers.add(new Customer(new Point(x, y), demand));
 			}
 		}
 
-		return new ArrayList<>(Arrays.asList(customers));
+		return customers;
 	}
 }

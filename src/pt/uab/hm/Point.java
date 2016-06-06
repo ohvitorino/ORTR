@@ -1,6 +1,6 @@
 package pt.uab.hm;
 
-public class Point {
+public class Point implements Comparable<Point> {
 	private double x;
 	private double y;
 
@@ -24,5 +24,14 @@ public class Point {
 
 	public void setY(double y) {
 		this.y = y;
+	}
+
+	@Override
+	public int compareTo(Point o) {
+		if (this.x > o.x || this.y > o.y)
+			return 1;
+		else if (this.x < o.x || this.y < o.y)
+			return -1;
+		return 0;
 	}
 }

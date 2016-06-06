@@ -36,6 +36,10 @@ public class SolverTest {
 			customers = OVRPGenerator.generate(20, 10);
 			vehicles = solver.sweep(customers, 900);
 			assertEquals(5, vehicles.size());
+			for (Vehicle vehicle : vehicles) {
+				// Check if the depot is the first "customer"
+				assertTrue(vehicle.getCustomers().get(0).getPoint().compareTo(new Point(0, 0)) == 0);
+			}
 		} catch (Exception e) {
 			fail();
 		}
