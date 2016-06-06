@@ -80,11 +80,13 @@ public class Solver {
 
 		List<Vehicle> vehicles = new ArrayList<>();
 		Iterator<Customer> it = customersCopy.iterator();
+		Customer depot = it.next();
 
 		int vehicleNumber = 0;
 		
 		Customer customer = it.next();
 		Vehicle vehicle = new Vehicle(vehicleNumber);
+		vehicle.addCustomer(depot);
 		do {
 			// Check vehicle capacity
 			if (vehicle.getCurrentCapacityUsage() + customer.getDemand() <= vehicleCapacity) {
@@ -94,6 +96,7 @@ public class Solver {
 				// Vehicle can't take anymore customers
 				vehicles.add(vehicle);
 				vehicle = new Vehicle(++vehicleNumber);
+				vehicle.addCustomer(depot);
 			}
 		} while (it.hasNext() && (customer = it.next()) != null);
 		// Add the last created vehicle
