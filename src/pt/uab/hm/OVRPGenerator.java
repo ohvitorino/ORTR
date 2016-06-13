@@ -1,7 +1,6 @@
 package pt.uab.hm;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class OVRPGenerator {
@@ -18,21 +17,22 @@ public class OVRPGenerator {
 
 		List<Customer> customers = new ArrayList<>(n + 1);
 
-		// Algorithm
-		int w = 0;
 
 		// This is the depot
 		customers.add(new Customer(new Point(0, 0), 0));
 
 		for (int k = 1; k <= b; k++) {
-			int gama = 30 * 1000;
+			int gama = 30 * k;
 
 			for (int i = 1; i <= a; i++) {
-				w++;
 
 				double x = gama * Math.cos(2 * (i - 1) * Math.PI / a);
 				double y = gama * Math.sin(2 * (i - 1) * Math.PI / a);
 
+				// Round to 4 decimal places
+				x = Math.round (x * 10000.0) / 10000.0;
+				y = Math.round (y * 10000.0) / 10000.0;
+				
 				int demand;
 				int mod = Math.floorMod(i, 4);
 				if (mod == 2 || mod == 3) {
