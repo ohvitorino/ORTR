@@ -40,4 +40,9 @@ public class Customer {
 		double r = Math.sqrt(Math.pow(point.getX(), 2) + Math.pow(point.getY(), 2));
 		return new PolarPoint(r, theta);
 	}
+	
+	@Override
+	public String toString() {
+		return "[" + this.getPoint() + ", " + this.demand + "]";
+	}
 }

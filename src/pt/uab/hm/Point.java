@@ -34,4 +34,9 @@ public class Point implements Comparable<Point> {
 			return -1;
 		return 0;
 	}
+	
+	@Override
+	public String toString() {
+		return "(" + this.x +", "+ this.y +")";
+	}
 }
