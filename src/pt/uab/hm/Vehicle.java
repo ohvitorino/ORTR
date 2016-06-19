@@ -44,4 +44,20 @@ public class Vehicle {
 	public void setCustomers(List<Customer> customers) {
 		this.customers = customers;
 	}
+	
+	/**
+	 * Given a list of customers, select the ones that have
+	 * the current vehicle assigned to them.
+	 * @param customers
+	 * @return List of customers assign to this vehicle
+	 */
+	public List<Customer> getCustomers(List<Customer> customers) {
+		List<Customer> myCustomers = new ArrayList<Customer>();
+		for (Customer customer : customers) {
+			if (customer.getVehicle() == this) {
+				myCustomers.add(customer);
+			}
+		}
+		return myCustomers;
+	}
 }

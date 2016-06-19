@@ -4,6 +4,7 @@ public class Customer {
 	private Point point;
 	private PolarPoint pointPolar;
 	private int demand;
+	private Vehicle vehicle;
 
 	public Customer(Point point, int demand) {
 		this.point = point;
@@ -22,6 +23,10 @@ public class Customer {
 	public int getDemand() {
 		return demand;
 	}
+	
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
 
 	public void setPoint(Point point) {
 		this.point = point;
@@ -33,6 +38,10 @@ public class Customer {
 
 	public void setDemand(int demand) {
 		this.demand = demand;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
 	}
 
 	private PolarPoint convertCartesianToPolar(Point point) {
