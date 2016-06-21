@@ -107,10 +107,9 @@ public class SolverTest {
 
         Solver solver = new Solver();
 
-        List<Customer> customers = OVRPGenerator.generate(5, 6);
+        List<Customer> customers = OVRPGenerator.generate(20, 10);
 
         Solution solution = new Solution(null, customers, CAPACITY);
-		solution.distributeByVehicles(CAPACITY);
 
         ORTRVisualizer.visualize(solution.getVehicles());
 
@@ -118,5 +117,35 @@ public class SolverTest {
 
 
         ORTRVisualizer.visualize(solution.getVehicles());
+    }
+
+    @Test
+	public void testTwoPointMoveRTRWithGeneratedSolution() {
+        final int CAPACITY = 900;
+
+        Solver solver = new Solver();
+
+        List<Customer> customers = OVRPGenerator.generate(20, 10);
+
+        Solution solution = new Solution(null, customers, CAPACITY);
+
+        ORTRVisualizer.visualize(solution.getVehicles());
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        solution = solver.twoPointMoveRTR(solution, CAPACITY);
+
+
+        ORTRVisualizer.visualize(solution.getVehicles());
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

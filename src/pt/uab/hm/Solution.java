@@ -13,6 +13,7 @@ public class Solution {
         this(null, customers, capacity);
         this.solutionValue = solutionValue;
     }
+
     public Solution(List<Vehicle> vehicles, List<Customer> customers, int capacity) {
         this.customers = customers;
         this.capacity = capacity;
@@ -63,6 +64,7 @@ public class Solution {
             if (vehicle.getCurrentCapacityUsage() + customer.getDemand() > vehicleCapacity) {
                 this.vehicles.add(vehicle);
                 vehicle = new Vehicle(++i);
+                vehicle.addCustomer(new Customer(new Point(0, 0), 0));
             }
 
             vehicle.addCustomer(customer);

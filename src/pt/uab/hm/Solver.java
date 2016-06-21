@@ -19,7 +19,7 @@ public class Solver {
     }
 
     public static void main(String[] args) throws Throwable {
-        List<Customer> customers = OVRPGenerator.generate(5, 6);
+        List<Customer> customers = OVRPGenerator.generate(20, 10);
 
         for (Customer customer : customers) {
             System.out.println(customer);
@@ -163,7 +163,7 @@ public class Solver {
      */
     public Solution onePointMoveRTR(Solution solution, int vehicleCapacity) {
         Solution bestSolution = null;
-        double bestValueSoFar = -1;
+        double bestValueSoFar;
         int elementToChange = -1;
         int bestPosition = -1;
 
@@ -242,7 +242,106 @@ public class Solver {
      * @return
      */
     public Solution twoPointMoveRTR(Solution solution, int vehicleCapacity) {
+        double currentValue = solution.runObjectiveFunction(), bestValueSoFar = currentValue;
+        int positionToReplaceI = -1, positionToReplaceJ = -1;
 
-        return solution;
+        for (int i = 0; i < solution.getCustomers().size(); i++) {
+
+            double iterationValue = currentValue;
+
+            Customer currentCustomerI = solution.getCustomers().get(i);
+            Customer previousCustomerI = null, nextCustomerI = null;
+
+            // Remove element I
+
+            if (i > 0) {
+                previousCustomerI = solution.getCustomers().get(i - 1);
+
+                iterationValue -= previousCustomerI.getPoint().distanceTo(currentCustomerI.getPoint());
+            }
+
+            if (i < solution.getCustomers().size() - 1) {
+                nextCustomerI = solution.getCustomers().get(i + 1);
+
+                iterationValue -= nextCustomerI.getPoint().distanceTo(currentCustomerI.getPoint());
+            }
+
+            if (previousCustomerI != null && nextCustomerI != null) {
+                iterationValue += previousCustomerI.getPoint().distanceTo(nextCustomerI.getPoint());
+            }
+
+
+            // Let's start replacing I with J
+            for (int j = 0; j < solution.getCustomers().size(); j++) {
+                // Skip if we are trying the element with itself
+                if (i == j) {
+                    continue;
+                }
+
+                // Remove element J
+
+                Customer currentCustomerJ = solution.getCustomers().get(i);
+                Customer previousCustomerJ = null, nextCustomerJ = null;
+
+                if (j > 0) {
+                    previousCustomerJ = solution.getCustomers().get(j - 1);
+
+                    iterationValue -= previousCustomerJ.getPoint().distanceTo(currentCustomerJ.getPoint());
+                }
+
+                if (j < solution.getCustomers().size() - 1) {
+                    nextCustomerJ = solution.getCustomers().get(j + 1);
+
+                    iterationValue -= nextCustomerJ.getPoint().distanceTo(currentCustomerJ.getPoint());
+                }
+
+                if (previousCustomerJ != null && nextCustomerJ != null) {
+                    iterationValue += previousCustomerJ.getPoint().distanceTo(nextCustomerJ.getPoint());
+                }
+
+                // Place element I in J position
+
+                if (previousCustomerJ != null) {
+                    iterationValue += previousCustomerJ.getPoint().distanceTo(currentCustomerI.getPoint());
+                }
+
+                if (nextCustomerJ != null) {
+                    iterationValue += nextCustomerJ.getPoint().distanceTo(currentCustomerI.getPoint());
+                }
+
+                // Place element J in I position
+
+                if (previousCustomerI != null) {
+                    iterationValue += previousCustomerI.getPoint().distanceTo(currentCustomerJ.getPoint());
+                }
+
+                if (nextCustomerI != null) {
+                    iterationValue += nextCustomerI.getPoint().distanceTo(currentCustomerJ.getPoint());
+                }
+
+                // Now let's check if there's some improvement
+
+                if (iterationValue < bestValueSoFar) {
+                    bestValueSoFar = iterationValue;
+                    positionToReplaceI = i;
+                    positionToReplaceJ = j;
+                }
+
+            }
+
+        }
+
+        if (positionToReplaceI != -1 && positionToReplaceJ != -1) {
+
+            List<Customer> customers = new ArrayList<>(solution.getCustomers());
+            Customer customerI = customers.get(positionToReplaceI);
+            Customer customerJ = customers.get(positionToReplaceJ);
+            customers.add(positionToReplaceI, customerJ);
+            customers.add(positionToReplaceJ, customerI);
+
+            return new Solution(customers, bestValueSoFar, vehicleCapacity);
+        } else {
+            return solution;
+        }
     }
 }
